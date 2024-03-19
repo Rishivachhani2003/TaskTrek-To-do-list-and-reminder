@@ -3,8 +3,9 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:to_do_riverpod/view/home_page.dart';
-import 'package:to_do_riverpod/view/login_view.dart';
+import 'package:get/get.dart';
+import 'package:to_do_riverpod/screens/home_screen.dart';
+import 'package:to_do_riverpod/screens/login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -37,9 +38,9 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Widget _getScreenBasedOnAuthStatus(User? user) {
     if (user != null) {
-      return MyHomePage();
+      return HomeScreen();
     } else {
-      return LoginView();
+      return LoginScreen();
     }
   }
 
@@ -50,6 +51,7 @@ class _SplashScreenState extends State<SplashScreen> {
     //   builder: (BuildContext context, AsyncSnapshot<User?> snapshot) {
     //     if (snapshot.connectionState == ConnectionState.waiting) {
     return Scaffold(
+      backgroundColor: Get.isDarkMode ? Colors.black : Colors.white,
       body: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
           return Center(
@@ -71,11 +73,18 @@ class _SplashScreenState extends State<SplashScreen> {
                 SizedBox(
                   height: constraints.maxHeight * 0.03,
                 ),
-                Text("Hello, Welcome to Taskify"),
+                Text(
+                  "Hello, Welcome to TaskTrek",
+                  style: TextStyle(
+                    color: Get.isDarkMode ? Colors.white : Colors.black,
+                  ),
+                ),
                 SizedBox(
                   height: constraints.maxHeight * 0.03,
                 ),
-                CircularProgressIndicator(),
+                CircularProgressIndicator(
+                  color: Get.isDarkMode ? Colors.white : Colors.black,
+                ),
               ],
             ),
           );

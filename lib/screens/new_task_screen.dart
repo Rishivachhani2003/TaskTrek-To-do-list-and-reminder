@@ -5,22 +5,22 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:to_do_riverpod/consts/constants.dart';
 import 'package:to_do_riverpod/enums/category.dart';
-import 'package:to_do_riverpod/services/task_services.dart';
-import 'package:to_do_riverpod/view/home_page.dart';
+import 'package:to_do_riverpod/services/db_helper.dart';
+import 'package:to_do_riverpod/screens/home_screen.dart';
 import 'package:to_do_riverpod/widget/textfield_widget.dart';
 
-class NewTask extends StatefulWidget {
-  NewTask({super.key});
+class NewTaskScreen extends StatefulWidget {
+  NewTaskScreen({super.key});
 
   @override
-  State<NewTask> createState() => _NewTaskState();
+  State<NewTaskScreen> createState() => _NewTaskScreenState();
 }
 
-class _NewTaskState extends State<NewTask> {
+class _NewTaskScreenState extends State<NewTaskScreen> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
 
@@ -30,25 +30,22 @@ class _NewTaskState extends State<NewTask> {
       .format(DateTime.now().add(const Duration(minutes: 15)))
       .toString();
 
-  String? _selectedRemind = "5";
-  final TextEditingController _reminderController = TextEditingController();
-  final List<String> remindList = [
-    "5",
-    "10",
-    "15",
-    "20",
-  ];
+  int _selectedRemind = 5;
+  List<int> remindList = [5, 10, 15, 20];
+  String _selectedRepeat = 'Never';
+  List<String> repeatList = ['Never', 'Daily', 'Weekly', 'Monthly'];
 
   category _category = category.Learning;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Get.isDarkMode ? Colors.black : Colors.white,
       body: Padding(
         padding: EdgeInsets.only(
           top: 40,
-          left: 25,
-          right: 25,
+          left: 18,
+          right: 18,
         ),
         child: SingleChildScrollView(
           child: Column(
@@ -60,32 +57,41 @@ class _NewTaskState extends State<NewTask> {
                   "New Task Todo",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 22,
-                      color: Colors.black),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 22,
+                    color: Get.isDarkMode ? Colors.white : Colors.black,
+                  ),
                 ),
               ),
               Divider(
                 thickness: 1.2,
-                color: Colors.grey.shade400,
+                color: Colors.grey,
               ),
               SizedBox(
                 height: 10,
               ),
               Text(
                 "Title of Task",
-                style: AppStyle.headingOne,
+                style: TextStyle(
+                  color: Get.isDarkMode ? Colors.white : Colors.black,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
               SizedBox(height: 10),
               TextFieldWidget(
                 txtController: _titleController,
-                hintText: "Add New Task",
+                hintText: "Add Task Title",
                 maxLine: 1,
               ),
               SizedBox(height: 15),
               Text(
                 "Description",
-                style: AppStyle.headingOne,
+                style: TextStyle(
+                  color: Get.isDarkMode ? Colors.white : Colors.black,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
               SizedBox(
                 height: 10,
@@ -100,7 +106,11 @@ class _NewTaskState extends State<NewTask> {
               ),
               Text(
                 "Category",
-                style: AppStyle.headingOne,
+                style: TextStyle(
+                  color: Get.isDarkMode ? Colors.white : Colors.black,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
               SizedBox(
                 height: 6,
@@ -186,7 +196,11 @@ class _NewTaskState extends State<NewTask> {
               ),
               Text(
                 "Date",
-                style: AppStyle.headingOne,
+                style: TextStyle(
+                  color: Get.isDarkMode ? Colors.white : Colors.black,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
               SizedBox(
                 height: 10,
@@ -196,7 +210,9 @@ class _NewTaskState extends State<NewTask> {
                 width: MediaQuery.of(context).size.width,
                 height: 50,
                 decoration: BoxDecoration(
-                  color: Colors.grey.shade200,
+                  color: Get.isDarkMode
+                      ? Colors.grey.shade800
+                      : Colors.grey.shade200,
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Row(
@@ -209,13 +225,19 @@ class _NewTaskState extends State<NewTask> {
                           focusedBorder: InputBorder.none,
                           hintText:
                               DateFormat("dd/MM/yyyy").format(_selectedDate),
+                          hintStyle: TextStyle(
+                            color: Get.isDarkMode ? Colors.white : Colors.black,
+                          ),
                         ),
                         readOnly: true,
                       ),
                     ),
                     GestureDetector(
                       onTap: () => _getDateFromUser(),
-                      child: Icon(CupertinoIcons.calendar),
+                      child: Icon(
+                        CupertinoIcons.calendar,
+                        color: Get.isDarkMode ? Colors.white : Colors.black,
+                      ),
                     ),
                   ],
                 ),
@@ -233,7 +255,11 @@ class _NewTaskState extends State<NewTask> {
                       children: [
                         Text(
                           "Start Time",
-                          style: AppStyle.headingOne,
+                          style: TextStyle(
+                            color: Get.isDarkMode ? Colors.white : Colors.black,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                         SizedBox(
                           height: 10,
@@ -243,7 +269,9 @@ class _NewTaskState extends State<NewTask> {
                           width: MediaQuery.of(context).size.width / 2,
                           height: 50,
                           decoration: BoxDecoration(
-                            color: Colors.grey.shade200,
+                            color: Get.isDarkMode
+                                ? Colors.grey.shade800
+                                : Colors.grey.shade200,
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Row(
@@ -255,6 +283,11 @@ class _NewTaskState extends State<NewTask> {
                                     enabledBorder: InputBorder.none,
                                     focusedBorder: InputBorder.none,
                                     hintText: _startTime,
+                                    hintStyle: TextStyle(
+                                      color: Get.isDarkMode
+                                          ? Colors.white
+                                          : Colors.black,
+                                    ),
                                   ),
                                   readOnly: true,
                                 ),
@@ -264,6 +297,9 @@ class _NewTaskState extends State<NewTask> {
                                     _getTimeFromUser(isStartTime: true),
                                 child: Icon(
                                   CupertinoIcons.clock,
+                                  color: Get.isDarkMode
+                                      ? Colors.white
+                                      : Colors.black,
                                 ),
                               ),
                             ],
@@ -281,7 +317,11 @@ class _NewTaskState extends State<NewTask> {
                       children: [
                         Text(
                           "End Time",
-                          style: AppStyle.headingOne,
+                          style: TextStyle(
+                            color: Get.isDarkMode ? Colors.white : Colors.black,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                         SizedBox(
                           height: 10,
@@ -291,7 +331,9 @@ class _NewTaskState extends State<NewTask> {
                           width: MediaQuery.of(context).size.width,
                           height: 50,
                           decoration: BoxDecoration(
-                            color: Colors.grey.shade200,
+                            color: Get.isDarkMode
+                                ? Colors.grey.shade800
+                                : Colors.grey.shade200,
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Row(
@@ -303,6 +345,11 @@ class _NewTaskState extends State<NewTask> {
                                     enabledBorder: InputBorder.none,
                                     focusedBorder: InputBorder.none,
                                     hintText: _endTime,
+                                    hintStyle: TextStyle(
+                                      color: Get.isDarkMode
+                                          ? Colors.white
+                                          : Colors.black,
+                                    ),
                                   ),
                                   readOnly: true,
                                 ),
@@ -312,6 +359,9 @@ class _NewTaskState extends State<NewTask> {
                                     _getTimeFromUser(isStartTime: false),
                                 child: Icon(
                                   CupertinoIcons.clock,
+                                  color: Get.isDarkMode
+                                      ? Colors.white
+                                      : Colors.black,
                                 ),
                               ),
                             ],
@@ -327,17 +377,22 @@ class _NewTaskState extends State<NewTask> {
               ),
               Text(
                 "Remind",
-                style: AppStyle.headingOne,
+                style: TextStyle(
+                  color: Get.isDarkMode ? Colors.white : Colors.black,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
               SizedBox(
                 height: 10,
               ),
-
               Container(
                 width: MediaQuery.of(context).size.width,
                 height: 50,
                 decoration: BoxDecoration(
-                  color: Colors.grey.shade200,
+                  color: Get.isDarkMode
+                      ? Colors.grey.shade800
+                      : Colors.grey.shade200,
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: DropdownButtonFormField2<String>(
@@ -347,34 +402,40 @@ class _NewTaskState extends State<NewTask> {
                   ),
                   hint: Text(
                     '$_selectedRemind minutes early',
-                    style: TextStyle(fontSize: 14),
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Get.isDarkMode ? Colors.white : Colors.black,
+                    ),
                   ),
                   items: remindList
                       .map((item) => DropdownMenuItem<String>(
-                            value: item + " minutes early",
+                            value: "${item} minutes early",
                             child: Text(
-                              item + " minutes early",
+                              "${item} minutes early",
                               style: TextStyle(
                                 fontSize: 15,
+                                color: Get.isDarkMode
+                                    ? Colors.white
+                                    : Colors.black,
                               ),
                             ),
                           ))
                       .toList(),
-                  onChanged: (value) {
+                  onChanged: (String? newValue) {
                     setState(() {
-                      _selectedRemind = value;
+                      _selectedRemind = int.parse(newValue!);
                     });
                   },
-                  onSaved: (value) {
-                    _selectedRemind = value;
+                  onSaved: (String? newValue) {
+                    _selectedRemind = int.parse(newValue!);
                   },
                   buttonStyleData: const ButtonStyleData(
                     padding: EdgeInsets.only(right: 8),
                   ),
-                  iconStyleData: const IconStyleData(
+                  iconStyleData: IconStyleData(
                     icon: Icon(
                       Icons.arrow_drop_down,
-                      color: Colors.black45,
+                      color: Get.isDarkMode ? Colors.white : Colors.black,
                     ),
                     iconSize: 24,
                   ),
@@ -388,88 +449,83 @@ class _NewTaskState extends State<NewTask> {
                   ),
                 ),
               ),
-
-              // Container(
-              //   padding: EdgeInsets.symmetric(horizontal: 15),
-              //   width: MediaQuery.of(context).size.width,
-              //   height: 50,
-              //   decoration: BoxDecoration(
-              //     color: Colors.grey.shade200,
-              //     borderRadius: BorderRadius.circular(8),
-              //   ),
-              //   child: Row(
-              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //     children: [
-              // Expanded(
-              //   child: TextField(
-              //     decoration: InputDecoration(
-              //       enabledBorder: InputBorder.none,
-              //       focusedBorder: InputBorder.none,
-              //       hintText: "${_selectedRemind} minutes early",
-              //     ),
-              //     readOnly: true,
-              //   ),
-              // ),
-
-              // DropdownMenu<String>(
-              //   initialSelection: "${_selectedRemind} minutes early",
-              //   controller: _reminderController,
-              //   requestFocusOnTap: true,
-              //   // onSelected: () {
-              //   //   setState(() {
-              //   //     _selectedRemind = value;
-              //   //   });
-              //   // },
-              //   onSelected: (value) {
-              //     setState(() {
-              //       _selectedRemind = int.parse(value!);
-              //     });
-              //   },
-              //   dropdownMenuEntries: remindList
-              //       .map<DropdownMenuEntry<String>>((int value) {
-              //     return DropdownMenuEntry<String>(
-              //       value: value.toString(),
-              //       label: remindList[value].toString(),
-              //       style: MenuItemButton.styleFrom(
-              //         foregroundColor: Colors.black,
-              //       ),
-              //     );
-              //   }).toList(),
-              // ),
-              // DropdownButton(
-              //   dropdownColor: Colors.blueGrey,
-              //   borderRadius: BorderRadius.circular(10),
-              //   items: remindList
-              //       .map<DropdownMenuItem<String>>(
-              //           (int value) => DropdownMenuItem(
-              //               value: value.toString(),
-              //               child: Text(
-              //                 '$value',
-              //                 style: const TextStyle(color: Colors.white),
-              //               )))
-              //       .toList(),
-              //   icon: const Icon(Icons.keyboard_arrow_down,
-              //       color: Colors.grey),
-              //   iconSize: 32,
-              //   elevation: 4,
-              //   underline: Container(
-              //     height: 0,
-              //   ),
-              //   style: TextStyle(
-              //     color: Colors.black,
-              //   ),
-              //   onChanged: (String? newValue) {
-              //     setState(() {
-              //       _selectedRemind = int.parse(newValue!);
-              //     });
-              //   },
-              // ),
-              //       const SizedBox(
-              //         width: 6,
-              //       ),
-              //     ],
-              //   ),
-              // ),
+              SizedBox(
+                height: 15,
+              ),
+              Text(
+                "Repeat",
+                style: TextStyle(
+                  color: Get.isDarkMode ? Colors.white : Colors.black,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                height: 50,
+                decoration: BoxDecoration(
+                  color: Get.isDarkMode
+                      ? Colors.grey.shade800
+                      : Colors.grey.shade200,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: DropdownButtonFormField2<String>(
+                  isExpanded: true,
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                  ),
+                  hint: Text(
+                    _selectedRepeat,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Get.isDarkMode ? Colors.white : Colors.black,
+                    ),
+                  ),
+                  items: repeatList
+                      .map((String item) => DropdownMenuItem<String>(
+                            value: item,
+                            child: Text(
+                              item,
+                              style: TextStyle(
+                                fontSize: 15,
+                                color: Get.isDarkMode
+                                    ? Colors.white
+                                    : Colors.black,
+                              ),
+                            ),
+                          ))
+                      .toList(),
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      _selectedRepeat = newValue!;
+                    });
+                  },
+                  onSaved: (String? newValue) {
+                    _selectedRepeat = newValue!;
+                  },
+                  buttonStyleData: const ButtonStyleData(
+                    padding: EdgeInsets.only(right: 8),
+                  ),
+                  iconStyleData: IconStyleData(
+                    icon: Icon(
+                      Icons.arrow_drop_down,
+                      color: Get.isDarkMode ? Colors.white : Colors.black,
+                    ),
+                    iconSize: 24,
+                  ),
+                  dropdownStyleData: DropdownStyleData(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                  ),
+                  menuItemStyleData: const MenuItemStyleData(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                  ),
+                ),
+              ),
               SizedBox(
                 height: 15,
               ),
@@ -478,7 +534,8 @@ class _NewTaskState extends State<NewTask> {
                   Expanded(
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white,
+                        backgroundColor:
+                            Get.isDarkMode ? Colors.black : Colors.white,
                         foregroundColor: Colors.blue.shade800,
                         elevation: 0,
                         shape: RoundedRectangleBorder(
@@ -492,7 +549,13 @@ class _NewTaskState extends State<NewTask> {
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      child: const Text("Cancel"),
+                      child: Text(
+                        "Cancel",
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.blue.shade800,
+                        ),
+                      ),
                     ),
                   ),
                   SizedBox(
@@ -518,31 +581,39 @@ class _NewTaskState extends State<NewTask> {
 
                         String category = _category.name;
                         if (title.isEmpty) {
-                          Fluttertoast.showToast(msg: "Task Title is Empty");
+                          toast("Task Title is Empty", Get.isDarkMode);
                         } else if (desc.isEmpty) {
-                          Fluttertoast.showToast(
-                              msg: "Task description is Empty");
+                          toast("Task description is Empty", Get.isDarkMode);
                         } else {
-                          TaskServices().storeDetailsOfTask(
-                              title,
-                              desc,
-                              category,
-                              DateFormat('dd/MM/yyyy')
-                                  .format(_selectedDate)
-                                  .toString(),
-                              _startTime,
-                              _endTime);
-                          //                                 ref
-                          //                                     .read(radioProvider.notifier)
-                          //                                     .update((state) => 0);
+                          DBHelper().storeDetailsOfTask(
+                            title,
+                            desc,
+                            category,
+                            DateFormat('dd/MM/yyyy')
+                                .format(_selectedDate)
+                                .toString(),
+                            _startTime,
+                            _endTime,
+                            _selectedRemind,
+                            _selectedRepeat,
+                          );
                           Navigator.pushReplacement(context,
-                              MaterialPageRoute(builder: (c) => MyHomePage()));
+                              MaterialPageRoute(builder: (c) => HomeScreen()));
                         }
                       },
-                      child: Text("Create"),
+                      child: Text(
+                        "Create",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 15,
+                        ),
+                      ),
                     ),
                   ),
                 ],
+              ),
+              SizedBox(
+                height: 25,
               ),
             ],
           ),
@@ -562,8 +633,6 @@ class _NewTaskState extends State<NewTask> {
       setState(() {
         _selectedDate = pickedDate;
       });
-    } else {
-      Fluttertoast.showToast(msg: "Please select correct date");
     }
   }
 

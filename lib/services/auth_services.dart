@@ -2,7 +2,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:to_do_riverpod/consts/constants.dart';
 import 'package:to_do_riverpod/services/database_services.dart';
 
@@ -136,7 +136,7 @@ class AuthServices {
       // .doc(AuthServices().getUid())
       // .collection(todoCollection);
     } catch (e) {
-      Fluttertoast.showToast(msg: e.toString());
+      toast(e.toString(), Get.isDarkMode);
     }
   }
 

@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_single_cascade_in_expression_statements
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:to_do_riverpod/widget/drawer/mydrawer.dart';
 
 class DrawerUserController extends StatefulWidget {
@@ -96,7 +97,7 @@ class _DrawerUserControllerState extends State<DrawerUserController>
   Widget build(BuildContext context) {
     return Drawer(
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Get.isDarkMode ? Colors.black : Colors.white,
         body: SingleChildScrollView(
           controller: scrollController,
           scrollDirection: Axis.horizontal,

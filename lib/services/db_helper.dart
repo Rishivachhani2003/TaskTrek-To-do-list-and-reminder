@@ -1,16 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:to_do_riverpod/Module/todo.dart';
 import 'package:to_do_riverpod/consts/constants.dart';
 import 'package:to_do_riverpod/services/auth_services.dart';
 
-class TaskServices {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
-  void storeDetailsOfTask(String title, String description, String category,
-      String date, String startTime, String endTime) async {
-    var result = await _firestore
+class DBHelper {
+  void storeDetailsOfTask(
+      String title,
+      String description,
+      String category,
+      String date,
+      String startTime,
+      String endTime,
+      int remind,
+      String repeat) async {
+    var result = await FirebaseFirestore.instance
         .collection(userCollection)
         .doc(AuthServices().getUid())
         .collection(todoCollection)
@@ -20,12 +25,14 @@ class TaskServices {
             description: description,
             category: category,
             date: date,
+            remind: remind,
+            repeat: repeat,
             startTime: startTime,
             endTime: endTime,
             isDone: false,
           ).toMap(),
         );
-    await _firestore
+    await FirebaseFirestore.instance
         .collection(userCollection)
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .collection(todoCollection)
@@ -34,9 +41,9 @@ class TaskServices {
     print(result.id);
   }
 
-  Future<void> updateTask({todoid, bool? valueUpdate}) async {
+  static Future<void> updateTask({todoid, valueUpdate}) async {
     try {
-      await _firestore
+      await FirebaseFirestore.instance
           .collection(userCollection)
           .doc(AuthServices().getUid())
           .collection(todoCollection)
@@ -45,20 +52,20 @@ class TaskServices {
         'isDone': valueUpdate,
       });
     } catch (e) {
-      Fluttertoast.showToast(msg: e.toString());
+      toast(e.toString(), Get.isDarkMode);
     }
   }
 
-  Future<void> deleteTask({todoid}) async {
+  static Future<void> deleteTask({todoid}) async {
     try {
-      _firestore
+      await FirebaseFirestore.instance
           .collection(userCollection)
           .doc(AuthServices().getUid())
           .collection(todoCollection)
           .doc(todoid)
           .delete();
     } catch (e) {
-      Fluttertoast.showToast(msg: e.toString());
+      toast(e.toString(), Get.isDarkMode);
     }
   }
 }

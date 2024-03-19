@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-
-bool moveFromSignOut = false;
+import 'package:fluttertoast/fluttertoast.dart';
 
 const userCollection = "users";
 const todoCollection = "todo";
@@ -9,11 +8,13 @@ const todoCollection = "todo";
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
-class AppStyle {
-  static const headingOne = TextStyle(
-    color: Colors.black,
-    fontSize: 16,
-    fontWeight: FontWeight.w600,
+bool notify = true;
+
+Future<bool?> toast(String msg, bool isDarkMode) {
+  return Fluttertoast.showToast(
+    msg: msg,
+    backgroundColor: isDarkMode == true ? Colors.white : Colors.black,
+    textColor: isDarkMode == true ? Colors.black : Colors.white,
   );
 }
 
@@ -110,3 +111,32 @@ class AppTheme {
     color: lightText, // was lightText
   );
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+// PackageInfo packageInfo = await PackageInfo.fromPlatform();
+                  // if (context.mounted) {
+                  //   SimpleUpdateDialog.showUpdateDialog(
+                  //     context: context,
+                  //     isForceUpdate: false,
+                  //     message: "Update the new version Please update now",
+                  //     title: "Update!!",
+                  //     dialogConfig: DialogConfig(
+                  //       playStoreUrl:
+                  //           'https://play.google.com/store/apps/details?id=com.nrdeveloper.tasktrekk',
+                  //       currentVersion: packageInfo.version,
+                  //       latestAndroidVersion: '1.0.1',
+                  //       latestIOSVersion: '1.0.1',
+                  //       minAndroidAppVerAllowed: '1.0.0',
+                  //       minIOSAppVerAllowed: '1.0.0',
+                  //     ),

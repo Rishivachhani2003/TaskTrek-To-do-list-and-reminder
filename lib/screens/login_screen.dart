@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
+import 'package:to_do_riverpod/consts/constants.dart';
 import 'package:to_do_riverpod/services/auth_services.dart';
-import 'package:to_do_riverpod/view/forget_pass.dart';
-import 'package:to_do_riverpod/view/home_page.dart';
-import 'package:to_do_riverpod/view/register_view.dart';
+import 'package:to_do_riverpod/screens/forget_pass_screen.dart';
+import 'package:to_do_riverpod/screens/home_screen.dart';
+import 'package:to_do_riverpod/screens/register_screen.dart';
 
-class LoginView extends StatefulWidget {
-  const LoginView({Key? key}) : super(key: key);
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({Key? key}) : super(key: key);
 
   @override
-  State<LoginView> createState() => _LoginViewState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginViewState extends State<LoginView> {
+class _LoginScreenState extends State<LoginScreen> {
   // final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -22,6 +23,7 @@ class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Get.isDarkMode ? Colors.black : Colors.white,
       body: SingleChildScrollView(
         child: Center(
           child: Padding(
@@ -47,12 +49,13 @@ class _LoginViewState extends State<LoginView> {
                 const SizedBox(
                   height: 20,
                 ),
-                const Text(
-                  "Welcome to the Taskify",
+                Text(
+                  "Welcome to the TaskTrek",
                   style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold),
+                    color: Get.isDarkMode ? Colors.white : Colors.black,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 const SizedBox(
                   height: 25,
@@ -65,15 +68,21 @@ class _LoginViewState extends State<LoginView> {
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20),
-                      borderSide: const BorderSide(color: Colors.blueGrey),
+                      borderSide: BorderSide(
+                        color: Get.isDarkMode ? Colors.white : Colors.blueGrey,
+                      ),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20),
-                      borderSide: const BorderSide(color: Colors.black),
+                      borderSide: BorderSide(
+                        color: Get.isDarkMode ? Colors.white : Colors.black,
+                      ),
                     ),
                     border: InputBorder.none,
                     label: const Text("Email"),
-                    labelStyle: const TextStyle(color: Colors.black),
+                    labelStyle: TextStyle(
+                      color: Get.isDarkMode ? Colors.white : Colors.black,
+                    ),
                     hintText: "Enter your Email",
                     hintStyle: const TextStyle(color: Colors.grey),
                     prefixIcon: const Icon(
@@ -81,7 +90,7 @@ class _LoginViewState extends State<LoginView> {
                       color: Colors.grey,
                     ),
                     filled: true,
-                    fillColor: Colors.white,
+                    fillColor: Get.isDarkMode ? Colors.black : Colors.white,
                   ),
                 ),
                 const SizedBox(
@@ -95,15 +104,21 @@ class _LoginViewState extends State<LoginView> {
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20),
-                      borderSide: const BorderSide(color: Colors.grey),
+                      borderSide: BorderSide(
+                        color: Get.isDarkMode ? Colors.white : Colors.blueGrey,
+                      ),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20),
-                      borderSide: const BorderSide(color: Colors.black),
+                      borderSide: BorderSide(
+                        color: Get.isDarkMode ? Colors.white : Colors.black,
+                      ),
                     ),
                     border: InputBorder.none,
                     label: const Text("Password"),
-                    labelStyle: const TextStyle(color: Colors.black),
+                    labelStyle: TextStyle(
+                      color: Get.isDarkMode ? Colors.white : Colors.black,
+                    ),
                     hintText: "Enter your Password",
                     hintStyle: const TextStyle(color: Colors.grey),
                     prefixIcon: const Icon(Icons.lock,
@@ -118,11 +133,11 @@ class _LoginViewState extends State<LoginView> {
                         _isPasswordVisible
                             ? Icons.visibility
                             : Icons.visibility_off,
-                        color: Colors.black,
+                        color: Get.isDarkMode ? Colors.white : Colors.black,
                       ),
                     ),
                     filled: true,
-                    fillColor: Colors.white,
+                    fillColor: Get.isDarkMode ? Colors.black : Colors.white,
                   ),
                 ),
                 const SizedBox(
@@ -133,12 +148,17 @@ class _LoginViewState extends State<LoginView> {
                   children: [
                     Container(
                       child: TextButton(
-                        child: const Text("Forget Password?"),
+                        child: Text(
+                          "Forget Password?",
+                          style: TextStyle(
+                            color: Get.isDarkMode ? Colors.white : Colors.black,
+                          ),
+                        ),
                         onPressed: () {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (c) => ForgetPassView()));
+                                  builder: (c) => ForgetPassScreen()));
                         },
                       ),
                     ),
@@ -152,7 +172,7 @@ class _LoginViewState extends State<LoginView> {
                   width: _isLoading ? 40 : MediaQuery.of(context).size.width,
                   child: _isLoading
                       ? CircularProgressIndicator(
-                          color: Colors.black,
+                          color: Get.isDarkMode ? Colors.white : Colors.black,
                         )
                       : ElevatedButton(
                           onPressed: () async {
@@ -160,13 +180,12 @@ class _LoginViewState extends State<LoginView> {
                             String password = _passwordController.text;
 
                             if (email.isEmpty) {
-                              Fluttertoast.showToast(msg: "Please Enter Email");
+                              toast("Please Enter Email", Get.isDarkMode);
                             } else if (password.isEmpty) {
-                              Fluttertoast.showToast(
-                                  msg: "Please Enter Password");
+                              toast("Please Enter Password", Get.isDarkMode);
                             } else if (password.length < 6) {
-                              Fluttertoast.showToast(
-                                  msg: "Password length is greater than 6");
+                              toast("Password length is greater than 6",
+                                  Get.isDarkMode);
                             } else {
                               setState(() {
                                 _isLoading = true;
@@ -179,24 +198,22 @@ class _LoginViewState extends State<LoginView> {
                                   setState(() {
                                     _isLoading = false;
                                   });
-                                  Fluttertoast.showToast(
-                                      msg: "Login Successful");
+                                  toast("Login Successful", Get.isDarkMode);
                                   Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (c) => MyHomePage()));
+                                          builder: (c) => HomeScreen()));
                                 } else {
                                   setState(() {
                                     _isLoading = false;
                                   });
-                                  Fluttertoast.showToast(
-                                      msg: result.toString());
+                                  toast(result.toString(), Get.isDarkMode);
                                 }
                               }).catchError((error) {
                                 setState(() {
                                   _isLoading = false;
                                 });
-                                Fluttertoast.showToast(msg: error.toString());
+                                toast(error.toString(), Get.isDarkMode);
                               });
                             }
                           },
@@ -207,8 +224,9 @@ class _LoginViewState extends State<LoginView> {
                                 borderRadius: BorderRadius.circular(15),
                               ),
                             ),
-                            backgroundColor:
-                                MaterialStateProperty.all<Color>(Colors.black),
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                              Get.isDarkMode ? Colors.white : Colors.black,
+                            ),
                           ),
                           child: Padding(
                             padding: EdgeInsets.all(
@@ -217,7 +235,9 @@ class _LoginViewState extends State<LoginView> {
                             child: Text(
                               'Login',
                               style: TextStyle(
-                                color: Colors.white,
+                                color: Get.isDarkMode
+                                    ? Colors.black
+                                    : Colors.white,
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
                               ),

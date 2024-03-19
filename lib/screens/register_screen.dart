@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
+import 'package:get/utils.dart';
+import 'package:to_do_riverpod/consts/constants.dart';
 import 'package:to_do_riverpod/services/auth_services.dart';
-import 'package:to_do_riverpod/services/local_notification.dart';
-import 'package:to_do_riverpod/view/home_page.dart';
-import 'package:to_do_riverpod/view/login_view.dart';
+// import 'package:to_do_riverpod/services/local_notification.dart';
+import 'package:to_do_riverpod/screens/home_screen.dart';
+import 'package:to_do_riverpod/screens/login_screen.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({Key? key}) : super(key: key);
@@ -22,15 +24,16 @@ class _RegisterViewState extends State<RegisterView> {
   bool _isConfirmPasswordVisible = false;
   bool _isLoading = false;
 
-  @override
-  void initState() {
-    super.initState();
-    LocalNotification.initialize();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   LocalNotification.initialize();
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Get.isDarkMode ? Colors.black : Colors.white,
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: SingleChildScrollView(
@@ -55,12 +58,13 @@ class _RegisterViewState extends State<RegisterView> {
               const SizedBox(
                 height: 20,
               ),
-              const Text(
-                "Register to Taskify",
+              Text(
+                "Register to TaskTrek",
                 style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold),
+                  color: Get.isDarkMode ? Colors.white : Colors.black,
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               const SizedBox(
                 height: 20,
@@ -73,15 +77,21 @@ class _RegisterViewState extends State<RegisterView> {
                 decoration: InputDecoration(
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
-                    borderSide: const BorderSide(color: Colors.blueGrey),
+                    borderSide: BorderSide(
+                      color: Get.isDarkMode ? Colors.white : Colors.blueGrey,
+                    ),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
-                    borderSide: const BorderSide(color: Colors.black),
+                    borderSide: BorderSide(
+                      color: Get.isDarkMode ? Colors.white : Colors.black,
+                    ),
                   ),
                   border: InputBorder.none,
                   label: const Text("Name"),
-                  labelStyle: const TextStyle(color: Colors.black),
+                  labelStyle: TextStyle(
+                    color: Get.isDarkMode ? Colors.white : Colors.black,
+                  ),
                   hintText: "Enter your Name",
                   hintStyle: const TextStyle(color: Colors.grey),
                   prefixIcon: const Icon(
@@ -89,7 +99,7 @@ class _RegisterViewState extends State<RegisterView> {
                     color: Colors.grey,
                   ),
                   filled: true,
-                  fillColor: Colors.white,
+                  fillColor: Get.isDarkMode ? Colors.black : Colors.white,
                 ),
               ),
               const SizedBox(
@@ -103,15 +113,21 @@ class _RegisterViewState extends State<RegisterView> {
                 decoration: InputDecoration(
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
-                    borderSide: const BorderSide(color: Colors.blueGrey),
+                    borderSide: BorderSide(
+                      color: Get.isDarkMode ? Colors.white : Colors.blueGrey,
+                    ),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
-                    borderSide: const BorderSide(color: Colors.black),
+                    borderSide: BorderSide(
+                      color: Get.isDarkMode ? Colors.white : Colors.black,
+                    ),
                   ),
                   border: InputBorder.none,
                   label: const Text("Email"),
-                  labelStyle: const TextStyle(color: Colors.black),
+                  labelStyle: TextStyle(
+                    color: Get.isDarkMode ? Colors.white : Colors.black,
+                  ),
                   hintText: "Enter your Email",
                   hintStyle: const TextStyle(color: Colors.grey),
                   prefixIcon: const Icon(
@@ -119,7 +135,7 @@ class _RegisterViewState extends State<RegisterView> {
                     color: Colors.grey,
                   ),
                   filled: true,
-                  fillColor: Colors.white,
+                  fillColor: Get.isDarkMode ? Colors.black : Colors.white,
                 ),
               ),
               const SizedBox(
@@ -133,15 +149,21 @@ class _RegisterViewState extends State<RegisterView> {
                 decoration: InputDecoration(
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
-                    borderSide: const BorderSide(color: Colors.grey),
+                    borderSide: BorderSide(
+                      color: Get.isDarkMode ? Colors.white : Colors.blueGrey,
+                    ),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
-                    borderSide: BorderSide(color: Colors.black),
+                    borderSide: BorderSide(
+                      color: Get.isDarkMode ? Colors.white : Colors.black,
+                    ),
                   ),
                   border: InputBorder.none,
                   label: Text("Password"),
-                  labelStyle: TextStyle(color: Colors.black),
+                  labelStyle: TextStyle(
+                    color: Get.isDarkMode ? Colors.white : Colors.black,
+                  ),
                   hintText: "Enter your Password",
                   hintStyle: TextStyle(color: Colors.grey),
                   prefixIcon: Icon(
@@ -155,13 +177,14 @@ class _RegisterViewState extends State<RegisterView> {
                       });
                     },
                     icon: Icon(
-                        _isPasswordVisible
-                            ? Icons.visibility
-                            : Icons.visibility_off,
-                        color: Colors.black),
+                      _isPasswordVisible
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                      color: Get.isDarkMode ? Colors.white : Colors.black,
+                    ),
                   ),
                   filled: true,
-                  fillColor: Colors.white,
+                  fillColor: Get.isDarkMode ? Colors.black : Colors.white,
                 ),
               ),
               const SizedBox(
@@ -175,15 +198,21 @@ class _RegisterViewState extends State<RegisterView> {
                 decoration: InputDecoration(
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
-                    borderSide: const BorderSide(color: Colors.grey),
+                    borderSide: BorderSide(
+                      color: Get.isDarkMode ? Colors.white : Colors.blueGrey,
+                    ),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
-                    borderSide: const BorderSide(color: Colors.black),
+                    borderSide: BorderSide(
+                      color: Get.isDarkMode ? Colors.white : Colors.black,
+                    ),
                   ),
                   border: InputBorder.none,
                   label: const Text("Confirm Password"),
-                  labelStyle: const TextStyle(color: Colors.black),
+                  labelStyle: TextStyle(
+                    color: Get.isDarkMode ? Colors.white : Colors.black,
+                  ),
                   hintText: "Enter your Confirm Password",
                   hintStyle: const TextStyle(color: Colors.grey),
                   prefixIcon: const Icon(Icons.lock,
@@ -195,13 +224,14 @@ class _RegisterViewState extends State<RegisterView> {
                       });
                     },
                     icon: Icon(
-                        _isConfirmPasswordVisible
-                            ? Icons.visibility
-                            : Icons.visibility_off,
-                        color: Colors.black),
+                      _isConfirmPasswordVisible
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                      color: Get.isDarkMode ? Colors.white : Colors.black,
+                    ),
                   ),
                   filled: true,
-                  fillColor: Colors.white,
+                  fillColor: Get.isDarkMode ? Colors.black : Colors.white,
                 ),
               ),
               const SizedBox(
@@ -212,12 +242,13 @@ class _RegisterViewState extends State<RegisterView> {
                 width: _isLoading ? 40 : MediaQuery.of(context).size.width,
                 child: _isLoading
                     ? CircularProgressIndicator(
-                        color: Colors.black,
+                        color: Get.isDarkMode ? Colors.white : Colors.black,
                       )
                     : ElevatedButton(
                         style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all<Color>(Colors.black),
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                            Get.isDarkMode ? Colors.white : Colors.black,
+                          ),
                           shape:
                               MaterialStateProperty.all<RoundedRectangleBorder>(
                             RoundedRectangleBorder(
@@ -225,10 +256,10 @@ class _RegisterViewState extends State<RegisterView> {
                             ),
                           ),
                         ),
-                        child: const Text(
+                        child: Text(
                           'Register',
                           style: TextStyle(
-                            color: Colors.white,
+                            color: Get.isDarkMode ? Colors.black : Colors.white,
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
@@ -241,25 +272,23 @@ class _RegisterViewState extends State<RegisterView> {
                               _confirmPasswordController.text;
 
                           if (name.isEmpty) {
-                            Fluttertoast.showToast(msg: "Please Enter name");
+                            toast("Please Enter name", Get.isDarkMode);
                           } else if (email.isEmpty) {
-                            Fluttertoast.showToast(msg: "Please Enter Email");
+                            toast("Please Enter Email", Get.isDarkMode);
                           } else if (password.isEmpty) {
-                            Fluttertoast.showToast(
-                                msg: "Please Enter Password");
+                            toast("Please Enter Password", Get.isDarkMode);
                           } else if (password.length < 6) {
-                            Fluttertoast.showToast(
-                                msg: "Password length is greater than 6");
+                            toast("Password length is greater than 6",
+                                Get.isDarkMode);
                           } else if (confirmPassword.isEmpty) {
-                            Fluttertoast.showToast(
-                                msg: "Please Enter Confirmed Password");
+                            toast("Please Enter Confirmed Password",
+                                Get.isDarkMode);
                           } else if (confirmPassword.length < 6) {
-                            Fluttertoast.showToast(
-                                msg: "Password length is greater than 6");
+                            toast("Password length is greater than 6",
+                                Get.isDarkMode);
                           } else if (password != confirmPassword) {
-                            Fluttertoast.showToast(
-                                msg:
-                                    "'Password and confirm password do not match");
+                            toast("Password and confirm password do not match",
+                                Get.isDarkMode);
                           } else {
                             setState(() {
                               _isLoading = true;
@@ -276,26 +305,26 @@ class _RegisterViewState extends State<RegisterView> {
                                   _isLoading = false;
                                 });
 
-                                LocalNotification.showNotification(
-                                  title: "Taskify",
-                                  body: "Welcome, in Taskify",
-                                );
-                                Fluttertoast.showToast(msg: "Account Created");
+                                // LocalNotification.showNotification(
+                                //   title: "Taskify",
+                                //   body: "Welcome, in Taskify",
+                                // );
+                                toast("Account Created", Get.isDarkMode);
                                 Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (c) => MyHomePage()));
+                                        builder: (c) => HomeScreen()));
                               } else {
                                 setState(() {
                                   _isLoading = false;
                                 });
-                                Fluttertoast.showToast(msg: result.toString());
+                                toast(result.toString(), Get.isDarkMode);
                               }
                             }).catchError((error) {
                               setState(() {
                                 _isLoading = false;
                               });
-                              Fluttertoast.showToast(msg: error.toString());
+                              toast(error.toString(), Get.isDarkMode);
                             });
 
                             _nameController.clear();
@@ -312,12 +341,14 @@ class _RegisterViewState extends State<RegisterView> {
               GestureDetector(
                 onTap: () {
                   Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (c) => const LoginView()));
+                      MaterialPageRoute(builder: (c) => const LoginScreen()));
                 },
                 child: Text(
                   'Already registered? Login Here!',
                   style: TextStyle(
-                      color: Colors.black, fontWeight: FontWeight.w600),
+                    color: Get.isDarkMode ? Colors.white : Colors.black,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
             ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class TextFieldWidget extends StatelessWidget {
   const TextFieldWidget({
@@ -17,7 +18,7 @@ class TextFieldWidget extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 15),
       decoration: BoxDecoration(
-        color: Colors.grey.shade200,
+        color: Get.isDarkMode ? Colors.grey.shade800 : Colors.grey.shade200,
         borderRadius: BorderRadius.circular(8),
       ),
       child: TextField(

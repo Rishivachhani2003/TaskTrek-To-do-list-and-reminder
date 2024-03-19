@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:to_do_riverpod/view/home_page.dart';
+import 'package:get/get.dart';
+import 'package:to_do_riverpod/screens/home_screen.dart';
 import 'package:to_do_riverpod/widget/drawer/drawercontroller.dart';
 import 'package:to_do_riverpod/widget/drawer/mydrawer.dart';
 
@@ -15,7 +16,7 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
   @override
   void initState() {
     drawerIndex = DrawerIndex.HOME;
-    screenView = MyHomePage();
+    screenView = HomeScreen();
     super.initState();
   }
 
@@ -24,9 +25,9 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
     return Container(
       width: MediaQuery.of(context).size.width * 0.85,
       child: Drawer(
-        backgroundColor: Colors.white,
+        backgroundColor: Get.isDarkMode ? Colors.black : Colors.white,
         child: Scaffold(
-          backgroundColor: Colors.white,
+          backgroundColor: Get.isDarkMode ? Colors.black : Colors.white,
           body: DrawerUserController(
             screenIndex: drawerIndex,
             drawerWidth: MediaQuery.of(context).size.width * 0.85,
@@ -48,22 +49,22 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
       switch (drawerIndex) {
         case DrawerIndex.HOME:
           setState(() {
-            screenView = MyHomePage();
+            screenView = HomeScreen();
           });
           break;
         case DrawerIndex.Help:
           setState(() {
-            screenView = MyHomePage();
+            screenView = HomeScreen();
           });
           break;
         case DrawerIndex.FeedBack:
           setState(() {
-            screenView = MyHomePage();
+            screenView = HomeScreen();
           });
           break;
         case DrawerIndex.Invite:
           setState(() {
-            screenView = MyHomePage();
+            screenView = HomeScreen();
           });
           break;
         default:

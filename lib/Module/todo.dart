@@ -8,6 +8,8 @@ class TodoModule {
   String? date;
   String? startTime;
   String? endTime;
+  String? repeat;
+  int? remind;
   bool? isDone;
 
   TodoModule({
@@ -18,7 +20,9 @@ class TodoModule {
     required this.date,
     required this.startTime,
     required this.endTime,
+    required this.repeat,
     required this.isDone,
+    required this.remind,
   });
 
   factory TodoModule.fromMap(DocumentSnapshot snap) {
@@ -29,9 +33,11 @@ class TodoModule {
       description: map['description'],
       category: map['category'],
       date: map['date'],
+      repeat: map['repeat'],
+      remind: map['remind'],
       startTime: map['startTime'],
       endTime: map['endTime'],
-      isDone: false,
+      isDone: map['isDone'],
     );
   }
 
@@ -44,6 +50,8 @@ class TodoModule {
       'date': date,
       'startTime': startTime,
       'endTime': endTime,
+      'repeat': repeat,
+      'remind': remind,
       'isDone': isDone,
     };
   }

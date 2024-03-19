@@ -1,14 +1,14 @@
-// ignore_for_file: prefer_const_constructors, use_build_context_synchronously
+// ignore_for_file: prefer_const_constructors, use_build_context_synchronously, unnecessary_new, constant_identifier_names
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_profile_picture/flutter_profile_picture.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 import 'package:to_do_riverpod/Module/user.dart';
 import 'package:to_do_riverpod/consts/constants.dart';
 import 'package:to_do_riverpod/services/auth_services.dart';
 import 'package:to_do_riverpod/services/database_services.dart';
-import 'package:to_do_riverpod/view/splash_screen.dart';
+import 'package:to_do_riverpod/screens/splash_screen.dart';
 import 'package:to_do_riverpod/widget/dialogs/delete_account_dialog.dart';
 import 'package:to_do_riverpod/widget/dialogs/logout_dialog.dart';
 
@@ -92,7 +92,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(30)),
       width: MediaQuery.of(context).size.width,
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Get.isDarkMode ? Colors.black87 : Colors.white,
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -124,20 +124,30 @@ class _HomeDrawerState extends State<HomeDrawer> {
                               width: 115,
                               height: 115,
                               child: CircleAvatar(
-                                backgroundColor: Colors.black,
+                                backgroundColor: Get.isDarkMode
+                                    ? Colors.white
+                                    : Colors.black,
                                 radius: 60,
                                 child: CircleAvatar(
                                   radius: 55,
-                                  backgroundColor: Colors.white,
+                                  backgroundColor: Get.isDarkMode
+                                      ? Colors.black
+                                      : Colors.white,
                                   child: CircleAvatar(
                                     radius: 50,
                                     backgroundColor: _userData == null
-                                        ? Colors.black
-                                        : Colors.white,
+                                        ? Get.isDarkMode
+                                            ? Colors.white
+                                            : Colors.black
+                                        : Get.isDarkMode
+                                            ? Colors.black
+                                            : Colors.white,
                                     child: _userData == null
                                         ? Icon(
                                             Icons.person,
-                                            color: Colors.white,
+                                            color: Get.isDarkMode
+                                                ? Colors.black
+                                                : Colors.white,
                                             size: 50,
                                           )
                                         : ProfilePicture(
@@ -160,7 +170,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                         name.toString(),
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
-                          color: Colors.black,
+                          color: Get.isDarkMode ? Colors.white : Colors.black,
                           fontSize: 18,
                         ),
                       ),
@@ -171,7 +181,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                         email.toString(),
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
-                          color: Colors.black,
+                          color: Get.isDarkMode ? Colors.white : Colors.black,
                           fontSize: 18,
                         ),
                       ),
@@ -185,7 +195,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
             ),
             Divider(
               height: 1,
-              color: AppTheme.grey.withOpacity(0.6),
+              color: Colors.grey,
             ),
             Expanded(
               child: ListView.builder(
@@ -197,20 +207,20 @@ class _HomeDrawerState extends State<HomeDrawer> {
                 },
               ),
             ),
-            Divider(
-              height: 1,
-              color: AppTheme.grey.withOpacity(0.6),
-            ),
             Column(
               children: <Widget>[
+                Divider(
+                  height: 1,
+                  color: Colors.grey,
+                ),
                 ListTile(
                   title: Text(
                     'Sign Out',
                     style: TextStyle(
-                      fontFamily: AppTheme.fontName,
+                      fontFamily: 'WorkSans',
                       fontWeight: FontWeight.w600,
                       fontSize: 16,
-                      color: Colors.black,
+                      color: Colors.red,
                     ),
                     textAlign: TextAlign.left,
                   ),
@@ -232,16 +242,16 @@ class _HomeDrawerState extends State<HomeDrawer> {
                 ),
                 Divider(
                   height: 1,
-                  color: AppTheme.grey.withOpacity(0.6),
+                  color: Colors.grey,
                 ),
                 ListTile(
                   title: Text(
                     'Delete Account',
                     style: TextStyle(
-                      fontFamily: AppTheme.fontName,
+                      fontFamily: 'WorkSans',
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
-                      color: Colors.black,
+                      color: Colors.red,
                     ),
                     textAlign: TextAlign.left,
                   ),
@@ -263,16 +273,13 @@ class _HomeDrawerState extends State<HomeDrawer> {
                               MaterialPageRoute(
                                   builder: (c) => SplashScreen()));
 
-                          Fluttertoast.showToast(
-                              msg:
-                                  'Your data and account deleted successfully.');
+                          toast('Your data and account deleted successfully.',
+                              Get.isDarkMode);
                         } else {
-                          Fluttertoast.showToast(
-                              msg: 'User not authenticated.');
+                          toast('User not authenticated.', Get.isDarkMode);
                         }
                       } catch (e) {
-                        Fluttertoast.showToast(
-                            msg: 'Error deleting user data: $e');
+                        toast('Error deleting user data: $e', Get.isDarkMode);
                       }
                     }
                   },
@@ -322,15 +329,23 @@ class _HomeDrawerState extends State<HomeDrawer> {
                       ? Container(
                           width: 24,
                           height: 24,
-                          child: Image.asset(listData.imageName,
-                              color: widget.screenIndex == listData.index
-                                  ? Colors.blue
-                                  : AppTheme.nearlyBlack),
+                          child: Image.asset(
+                            listData.imageName,
+                            color: widget.screenIndex == listData.index
+                                ? Colors.blue
+                                : Get.isDarkMode
+                                    ? Color.fromARGB(255, 207, 200, 200)
+                                    : Color(0xFF213333),
+                          ),
                         )
-                      : Icon(listData.icon?.icon,
+                      : Icon(
+                          listData.icon?.icon,
                           color: widget.screenIndex == listData.index
                               ? Colors.blue
-                              : AppTheme.nearlyBlack),
+                              : Get.isDarkMode
+                                  ? Color.fromARGB(255, 207, 200, 200)
+                                  : Color(0xFF213333),
+                        ),
                   const Padding(
                     padding: EdgeInsets.all(4.0),
                   ),
@@ -341,7 +356,9 @@ class _HomeDrawerState extends State<HomeDrawer> {
                       fontSize: 16,
                       color: widget.screenIndex == listData.index
                           ? Colors.blue
-                          : AppTheme.nearlyBlack,
+                          : Get.isDarkMode
+                              ? Color.fromARGB(255, 207, 200, 200)
+                              : Color(0xFF213333),
                     ),
                     textAlign: TextAlign.left,
                   ),
