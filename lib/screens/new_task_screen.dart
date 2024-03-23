@@ -6,6 +6,7 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:intl/intl.dart';
 import 'package:to_do_riverpod/consts/constants.dart';
 import 'package:to_do_riverpod/enums/category.dart';
@@ -21,6 +22,8 @@ class NewTaskScreen extends StatefulWidget {
 }
 
 class _NewTaskScreenState extends State<NewTaskScreen> {
+  // bool isBannerLoaded = false;
+  // BannerAd? _bannerAd;
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
 
@@ -36,6 +39,45 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
   List<String> repeatList = ['Never', 'Daily', 'Weekly', 'Monthly'];
 
   category _category = category.Learning;
+
+  // @override
+  // void initState() {
+  //   _bannerAd = BannerAd(
+  //     size: AdSize.banner,
+  //     //4 not deployed
+  //     // adUnitId: 'ca-app-pub-6091503707312070/7924460505',
+
+  //     /// 3
+
+  //     // adUnitId: 'ca-app-pub-6091503707312070/2374758537',
+
+  //     /// 2
+  //     // adUnitId: 'ca-app-pub-6091503707312070/2143658399',
+
+  //     /// 1
+  //     // adUnitId: 'ca-app-pub-6091503707312070/1559466355',
+
+  //     /// test unit id
+  //     // adUnitId: 'ca-app-pub-3940256099942544/9214589741',
+
+  //     listener: BannerAdListener(
+  //       onAdLoaded: (ad) {
+  //         setState(() {
+  //           isBannerLoaded = true;
+  //         });
+  //       },
+  //       onAdFailedToLoad: (ad, error) {
+  //         ad.dispose();
+  //         isBannerLoaded = false;
+  //         print(error.toString());
+  //         toast(error.toString(), Get.isDarkMode);
+  //       },
+  //     ),
+  //     request: AdRequest(),
+  //   );
+  //   _bannerAd!.load();
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -597,8 +639,7 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
                             _selectedRemind,
                             _selectedRepeat,
                           );
-                          Navigator.pushReplacement(context,
-                              MaterialPageRoute(builder: (c) => HomeScreen()));
+                          Get.back();
                         }
                       },
                       child: Text(
@@ -615,6 +656,15 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
               SizedBox(
                 height: 25,
               ),
+              // isBannerLoaded == true
+              //     ? Container(
+              //         height: _bannerAd!.size.height.toDouble(),
+              //         width: _bannerAd!.size.width.toDouble(),
+              //         child: AdWidget(
+              //           ad: _bannerAd!,
+              //         ),
+              //       )
+              //     : Container(),
             ],
           ),
         ),

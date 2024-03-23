@@ -47,7 +47,7 @@ class TaskController extends GetxController {
 
   void deleteTask(String todoid) async {
     await DBHelper.deleteTask(todoid: todoid);
-    getTasks();
+    // getTasks();
   }
 
   void markAsCompleted(String todoid, bool isUp) async {
