@@ -40,19 +40,20 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     _bannerAd = BannerAd(
       size: AdSize.banner,
-      // adUnitId: 'ca-app-pub-6091503707312070/7924460505', //4 not deployed
-      // adUnitId: 'ca-app-pub-6091503707312070/2374758537',
-
+      //4 not deployed
+      // adUnitId: 'ca-app-pub-6091503707312070/7924460505',
       /// 3
-      adUnitId: 'ca-app-pub-6091503707312070/2143658399',
+      adUnitId: 'ca-app-pub-6091503707312070/2374758537',
 
       ///2
-      // adUnitId: 'ca-app-pub-6091503707312070/1559466355',
+      // adUnitId: 'ca-app-pub-6091503707312070/2143658399',
 
       /// 1
-      // adUnitId: 'ca-app-pub-3940256099942544/9214589741',
+      // adUnitId: 'ca-app-pub-6091503707312070/1559466355',
 
       /// test unit id
+      // adUnitId: 'ca-app-pub-3940256099942544/9214589741',
+
       listener: BannerAdListener(
         onAdLoaded: (ad) {
           setState(() {
@@ -62,7 +63,8 @@ class _HomeScreenState extends State<HomeScreen> {
         onAdFailedToLoad: (ad, error) {
           ad.dispose();
           isBannerLoaded = false;
-          toast(error.toString(), Get.isDarkMode);
+          print(error.toString());
+          // toast(error.toString(), Get.isDarkMode);
         },
       ),
       request: AdRequest(),
@@ -163,14 +165,8 @@ class _HomeScreenState extends State<HomeScreen> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                IconButton(
-                  onPressed: () {},
-                  icon: Icon(
-                    CupertinoIcons.bell,
-                    color: Get.isDarkMode ? Colors.white : Colors.black,
-                  ),
-                ),
                 IconButton(
                   onPressed: () {
                     ThemeServices().switchTheme();
@@ -181,6 +177,29 @@ class _HomeScreenState extends State<HomeScreen> {
                         : Icons.nightlight_round_outlined,
                     size: 24,
                     color: Get.isDarkMode ? Colors.white : Colors.black,
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (c) => NewTaskScreen()));
+                  },
+                  child: Container(
+                    alignment: Alignment.center,
+                    width: 80,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Color(0xFF4e5ae8),
+                    ),
+                    child: Text(
+                      '+  Add',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 15,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                 ),
               ],
@@ -244,6 +263,7 @@ class _HomeScreenState extends State<HomeScreen> {
             );
           } else {
             return Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
                   child: ListView.builder(
@@ -312,6 +332,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         position: index,
                         duration: const Duration(milliseconds: 1375),
                         child: SlideAnimation(
+                          horizontalOffset: 300,
                           child: FadeInAnimation(
                             child: Padding(
                               padding: EdgeInsets.only(
@@ -321,7 +342,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                   motion: StretchMotion(),
                                   children: [
                                     SlidableAction(
-                                      autoClose: false,
                                       onPressed: (context) async {
                                         final shouldDelete =
                                             await showDeleteNoteDialog(context);
@@ -485,17 +505,15 @@ class _HomeScreenState extends State<HomeScreen> {
                     },
                   ),
                 ),
-                // Expanded(
-                //   child: isBannerLoaded == true
-                //       ? Container(
-                //           height: _bannerAd!.size.height.toDouble(),
-                //           width: _bannerAd!.size.width.toDouble(),
-                //           child: AdWidget(
-                //             ad: _bannerAd!,
-                //           ),
-                //         )
-                //       : Container(),
-                // ),
+                isBannerLoaded == true
+                    ? Container(
+                        height: _bannerAd!.size.height.toDouble() * 2,
+                        width: _bannerAd!.size.width.toDouble(),
+                        child: AdWidget(
+                          ad: _bannerAd!,
+                        ),
+                      )
+                    : Container(),
               ],
             );
           }
@@ -505,33 +523,40 @@ class _HomeScreenState extends State<HomeScreen> {
       //     ? SizedBox(
       //         height: 80,
       //         child: AdWidget(
-      //           ad: bannerAd,
+      //           ad: _bannerAd!,
       //         ),
       //       )
-      //     : Container(),
-      floatingActionButton: GestureDetector(
-        onTap: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (c) => NewTaskScreen()));
-        },
-        child: Container(
-          alignment: Alignment.center,
-          width: 100,
-          height: 50,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: Color(0xFF4e5ae8),
-          ),
-          child: Text(
-            '+  Add Task',
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 15,
-            ),
-            textAlign: TextAlign.center,
-          ),
-        ),
-      ),
+      // ? Container(
+      // height: _bannerAd!.size.height.toDouble(),
+      // width: _bannerAd!.size.width.toDouble(),
+      // child: AdWidget(
+      // ad: _bannerAd!,
+      // ),
+      // )
+      // : Container(),
+      // floatingActionButton: GestureDetector(
+      //   onTap: () {
+      //     Navigator.push(
+      //         context, MaterialPageRoute(builder: (c) => NewTaskScreen()));
+      //   },
+      //   child: Container(
+      //     alignment: Alignment.center,
+      //     width: 100,
+      //     height: 50,
+      //     decoration: BoxDecoration(
+      //       borderRadius: BorderRadius.circular(10),
+      //       color: Color(0xFF4e5ae8),
+      //     ),
+      //     child: Text(
+      //       '+  Add Task',
+      //       style: const TextStyle(
+      //         color: Colors.white,
+      //         fontSize: 15,
+      //       ),
+      //       textAlign: TextAlign.center,
+      //     ),
+      //   ),
+      // ),
     );
   }
 }

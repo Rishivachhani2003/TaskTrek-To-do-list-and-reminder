@@ -254,10 +254,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     Navigator.pushReplacement(context,
                         MaterialPageRoute(builder: (c) => RegisterView()));
                   },
-                  child: const Text(
+                  child: Text(
                     'Not registered yet? Register Here!',
                     style: TextStyle(
-                      color: Colors.black,
+                      color: Get.isDarkMode ? Colors.white : Colors.black,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
